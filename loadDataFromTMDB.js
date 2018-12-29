@@ -1,6 +1,5 @@
 require('dotenv').config();
 const request = require('request');
-const api = "https://api.themoviedb.org/3/discover/movie?page=1&include_video=false&include_adult=false&sort_by=popularity.desc&language=en-US&api_key=";
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Movie = require('./app/models/movieModel.js');
@@ -22,8 +21,19 @@ loadGenres().then((response) => {
 });
 
 function loadMovies() {
+	var options = { method: 'GET',
+	  url: 'https://api.themoviedb.org/3/discover/movie',
+	  qs: 
+	   {page: 1,
+	   include_video: false,
+	   include_adult: false,
+	   sort_by: 'popularity.desc', 
+	   	language: 'en-US',
+	     api_key: apiKey },
+	  body: '{}' };
+
 	return new Promise((resolve, reject) => {
-		request.get(api, (err, response, body) => {
+		request.get(options, (err, response, body) => {
 			let data = JSON.parse(body);
 
 			let movieData = data.results.map((item) => {
