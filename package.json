@@ -9,6 +9,9 @@
   "author": "ipandz00",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.1",
+    "request": "^2.88.0"
   }
 }
