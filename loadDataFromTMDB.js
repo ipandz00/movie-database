@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Movie = require('./app/models/movieModel.js');
 const Genre = require('./app/models/genreModel.js');
+const Actor = require('./app/models/actorModel.js');
 
 const apiKey = process.env.TMDB_API_KEY;
 if(apiKey === undefined) {
@@ -13,10 +14,10 @@ if(apiKey === undefined) {
 
 mongoose.connect('mongodb://localhost:27017/imdb', {useNewUrlParser: true});
 
-console.log(process.env.TMDB_API_KEY);
 loadGenres().then((response) => {
 	loadMovies().then((news) => {
-		console.log(news);
+		console.log('Data has been loaded!');
+		process.exit(-1);
 	});
 });
 
@@ -30,25 +31,38 @@ function loadMovies() {
 	   sort_by: 'popularity.desc', 
 	   	language: 'en-US',
 	     api_key: apiKey },
-	  body: '{}' };
+	  body: '{}' 
+	};
 
 	return new Promise((resolve, reject) => {
 		request.get(options, (err, response, body) => {
 			let data = JSON.parse(body);
+			let movieData = [];
 
-			let movieData = data.results.map((item) => {
+			let responses = data.results.map(async (item) => {
 				let genre = item.genre_ids.map((item) => item);
-				console.log(typeof genre)
-				const {vote_average, title, poster_path, overview, release_date, genre_ids} = item;
-				const subset = {vote_average, title, poster_path, overview, release_date, genre};
+				const id = item.id;
 
-				return subset;
+				await loadActors(id).then((cast) => {
+
+					const {vote_average, title, poster_path, overview, release_date, genre_ids} = item;
+					const subset = {vote_average, title, poster_path, overview, release_date, genre, cast};
+
+					movieData.push(subset);
+				});
+
 			});
 
-			Movie.insertMany(movieData, (error, docs) => {
-				console.log(error)
-				resolve('Done!');
-			});
+			Promise.all(responses).then((completed) => {
+				Movie.insertMany(movieData, (error, docs) => {
+					if(error) {
+						reject(error);
+					}
+					resolve();
+				});
+			})
+
+			
 		});
 	});
 }
@@ -61,7 +75,8 @@ function loadGenres() {
 	  qs: 
 	   { language: 'en-US',
 	     api_key: apiKey },
-	  body: '{}' };
+	  body: '{}' 
+	};
 
 	return new Promise((resolve, reject) => {
 		request(options, (error, response, body) => {
@@ -85,6 +100,42 @@ function loadGenres() {
 				console.log('Genres imported. \n Completed in: ' + ((new Date()).getTime() - startTime)/1000 + ' seconds.');
 				resolve();
 			});
+		});
+	});
+}
+
+function loadActors( movieId ) {
+	var options = { method: 'GET',
+	  url: `https://api.themoviedb.org/3/movie/${movieId}/credits`,
+	  qs: { api_key: apiKey },
+	  body: '{}' 
+	};
+
+	return new Promise((resolve, reject) => {
+		request(options, function (error, response, body) {
+		  if (error) {
+		  	throw new Error(error);
+		  }
+		  let data = JSON.parse(body);
+		  let cast = [];
+
+		  for(let i = 0; i < 10; i++) {
+		  	let el = data.cast[i];
+		  	let actor = {
+		  		id: el.id,
+				name: el.name,
+				gender: el.gender,
+				order: el.order,
+				character: el.character,
+				profile_path: el.profile_path
+		  	};
+		  	cast.push(actor);
+		  }
+
+		  Actor.insertMany(cast, (error, docs) => {
+		  	resolve(docs.map(item => item._id));
+		  });
+
 		});
 	});
 } 
