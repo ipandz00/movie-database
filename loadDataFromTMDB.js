@@ -12,12 +12,18 @@ if(apiKey === undefined) {
 	process.exit(-1);
 }
 
+function sleep(delay) {
+	var start = new Date().getTime();
+	while (new Date().getTime() < start + delay);
+}
+
 mongoose.connect('mongodb://localhost:27017/imdb', {useNewUrlParser: true});
 
 loadGenres().then(() => {
 	(async function loop() {
 	    for (let i = 1; i <= 5; i++) {
 	        await loadMovies(i);
+	        sleep(5000);
 	        console.log(i + ' page has been loaded');
 	    }
 	    console.log('Script finished.');
@@ -42,13 +48,14 @@ function loadMovies( page = 1) {
 
 	return new Promise((resolve, reject) => {
 		request.get(options, (err, response, body) => {
-			if(err) {
+			if(err !== null) {
 				throw new Error(err);
 			}
 			let data = JSON.parse(body);
 			let movieData = [];
-
-			console.log(data.results);
+			if(data.results === undefined) {
+				throw new Error('No results!');
+			}
 
 			let responses = data.results.map(async (item) => {
 				let genre = item.genre_ids.map((item) => item);
