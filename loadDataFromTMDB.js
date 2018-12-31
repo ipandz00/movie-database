@@ -14,18 +14,20 @@ if(apiKey === undefined) {
 
 mongoose.connect('mongodb://localhost:27017/imdb', {useNewUrlParser: true});
 
-loadGenres().then((response) => {
-	loadMovies().then((news) => {
-		console.log('Data has been loaded!');
-		process.exit(-1);
-	});
-});
+(async function loop() {
+	    for (let i = 5; i <= 5; i++) {
+	        await loadMovies(i);
+	        console.log(i + ' page has been loaded');
+	    }
+	    console.log('d')
+	})();
 
-function loadMovies() {
+
+function loadMovies( page = 1) {
 	var options = { method: 'GET',
 	  url: 'https://api.themoviedb.org/3/discover/movie',
 	  qs: 
-	   {page: 1,
+	   {page: page,
 	   include_video: false,
 	   include_adult: false,
 	   sort_by: 'popularity.desc', 
@@ -118,23 +120,30 @@ function loadActors( movieId ) {
 		  }
 		  let data = JSON.parse(body);
 		  let cast = [];
-
-		  for(let i = 0; i < 10; i++) {
-		  	let el = data.cast[i];
-		  	let actor = {
-		  		id: el.id,
-				name: el.name,
-				gender: el.gender,
-				order: el.order,
-				character: el.character,
-				profile_path: el.profile_path
-		  	};
-		  	cast.push(actor);
+		  if(data.cast === undefined) {
+		  	console.log('me here');
+		  	resolve(null);
 		  }
+		  else {
+		  	let max = data.cast.length < 10 ? data.cast.length: 10;
 
-		  Actor.insertMany(cast, (error, docs) => {
-		  	resolve(docs.map(item => item._id));
-		  });
+			  for(let i = 0; i < max; i++) {
+			  	let el = data.cast[i];
+			  	let actor = {
+			  		id: el.id,
+					name: el.name,
+					gender: el.gender,
+					order: el.order,
+					character: el.character,
+					profile_path: el.profile_path
+			  	};
+			  	cast.push(actor);
+			  }
+
+			  Actor.insertMany(cast, (error, docs) => {
+			  	resolve(docs.map(item => item._id));
+			  });
+		  }
 
 		});
 	});
