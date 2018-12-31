@@ -14,14 +14,18 @@ if(apiKey === undefined) {
 
 mongoose.connect('mongodb://localhost:27017/imdb', {useNewUrlParser: true});
 
-(async function loop() {
-	    for (let i = 5; i <= 5; i++) {
+loadGenres().then(() => {
+	(async function loop() {
+	    for (let i = 1; i <= 5; i++) {
 	        await loadMovies(i);
 	        console.log(i + ' page has been loaded');
 	    }
-	    console.log('d')
+	    console.log('Script finished.');
+		process.exit(-1);
 	})();
-
+}).catch((err) => {
+	throw new Error(err);
+});
 
 function loadMovies( page = 1) {
 	var options = { method: 'GET',
@@ -38,8 +42,13 @@ function loadMovies( page = 1) {
 
 	return new Promise((resolve, reject) => {
 		request.get(options, (err, response, body) => {
+			if(err) {
+				throw new Error(err);
+			}
 			let data = JSON.parse(body);
 			let movieData = [];
+
+			console.log(data.results);
 
 			let responses = data.results.map(async (item) => {
 				let genre = item.genre_ids.map((item) => item);
@@ -121,7 +130,7 @@ function loadActors( movieId ) {
 		  let data = JSON.parse(body);
 		  let cast = [];
 		  if(data.cast === undefined) {
-		  	console.log('me here');
+		  	console.log('Movie with id=' + movieId + ' has no actors!');
 		  	resolve(null);
 		  }
 		  else {
