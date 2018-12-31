@@ -12,9 +12,8 @@ if(apiKey === undefined) {
 	process.exit(-1);
 }
 
-function sleep(delay) {
-	var start = new Date().getTime();
-	while (new Date().getTime() < start + delay);
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 mongoose.connect('mongodb://localhost:27017/imdb', {useNewUrlParser: true});
@@ -23,7 +22,7 @@ loadGenres().then(() => {
 	(async function loop() {
 	    for (let i = 1; i <= 5; i++) {
 	        await loadMovies(i);
-	        sleep(5000);
+	        await sleep(5000);
 	        console.log(i + ' page has been loaded');
 	    }
 	    console.log('Script finished.');
