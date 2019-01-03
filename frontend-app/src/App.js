@@ -4,12 +4,11 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import Header from './containers/HeaderContainer.js';
+import { getMovies } from './api.js';
 
 class App extends Component {
   componentDidMount() {
-    fetch('http://localhost:8081/movies')
-    .then(response => response.json())
-    .then(data => console.log(data));
+    getMovies().then(response => console.log(response))
   }
   render() {
     return (
