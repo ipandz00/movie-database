@@ -1,17 +1,40 @@
 const express = require('express');
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/imdb', {useNewUrlParser: true});
 const app = express();
+
+//---------------------------------
+//Body Parser
+//---------------------------------
 const bodyParser = require('body-parser');
-app.use(bodyParser.json()) 
+app.use(bodyParser.json()); 
+
+//---------------------------------
+//Mongoose Settings
+//---------------------------------
+const mongoose = require('mongoose');
+
+app.use((req, res, next) => {
+	if(mongoose.connection.readyState) {
+		next();
+	}
+	else {
+		require('./mongo.js')().then(() => next());
+	}
+});
+
+//---------------------------------
+//Server
+//---------------------------------
+const port = process.env.PORT || process.argv[2] || 8081;
+const host = "localhost";
+
+let args;
+process.env.NODE_ENV === "production" ? (args = [port]) : (args = [port, host]);
+
+args.push(() => {
+	console.log(`Listening: http://${host}:${port}\n`);
+});
 require('./app/routes/movie.routes.js')(app);
- 
-// Create a Server
-var server = app.listen(8081, function () {
- 
-  var host = server.address().address;
-  var port = server.address().port;
- 
-  console.log("App listening at http://%s:%s", host, port)
- 
-})
+
+if (require.main === module) {
+  app.listen.apply(app, args);
+}
