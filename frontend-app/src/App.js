@@ -1,36 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
 import Header from './containers/HeaderContainer.js';
+import MovieList from './containers/MovieListContainer.js';
 import { getMovies } from './api.js';
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      movieData: null
+    };
+  }
   componentDidMount() {
-    getMovies().then(response => console.log(response))
+    getMovies().then(response => this.setState({movieData: response}))
   }
   render() {
     return (
-    <div>
+    <React.Fragment>
       <Header />
-      <div className="container">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    </div>
+      <MovieList data={this.state.movieData}/>
+    </React.Fragment>
     );
   }
 }
