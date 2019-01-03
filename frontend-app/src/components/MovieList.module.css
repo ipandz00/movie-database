@@ -1,0 +1,14 @@
+.movieOverview{
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cardImage {
+	cursor: pointer;
+}
+
+.cardImage:hover {
+	transition: 0.1s;
+	box-shadow: 30px;
+}
