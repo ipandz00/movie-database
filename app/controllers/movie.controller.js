@@ -4,7 +4,7 @@ const Movie = require('../models/movieModel.js');
 exports.findAll = (req, res) => {
     Movie.find().populate('genre').populate('cast')
     .then(movies => {
-        res.send(movies);
+        res.json(movies);
     }).catch(err => {
         res.status(500).send({
             message: err.message
@@ -21,7 +21,7 @@ exports.findOne = (req, res) => {
                 message: "Movie not found with id " + req.params.movieId
             });            
         }
-        res.send(movie);
+        res.json(movie);
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
