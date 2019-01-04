@@ -2,7 +2,10 @@ const Movie = require('../models/movieModel.js');
  
 // FETCH all Movies
 exports.findAll = (req, res) => {
-    Movie.find().populate('genre').populate('cast')
+    let page = parseInt(req.query.page);
+    let size = parseInt(req.query.size);
+
+    Movie.find().skip(size * (page - 1)).limit(size).populate('genre').populate('cast')
     .then(movies => {
         res.json(movies);
     }).catch(err => {
