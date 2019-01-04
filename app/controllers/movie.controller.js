@@ -7,7 +7,16 @@ exports.findAll = (req, res) => {
 
     Movie.find().skip(size * (page - 1)).limit(size).populate('genre').populate('cast')
     .then(movies => {
-        res.json(movies);
+        Movie.countDocuments({}).exec((err, count) => {
+            if (err) {
+                res.send(err);
+                return
+            }
+
+            let output = {page: page, size: size, data: movies, totalCount: count};
+            res.json(output);
+
+        });
     }).catch(err => {
         res.status(500).send({
             message: err.message
