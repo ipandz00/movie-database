@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 
 //---------------------------------
 //Body Parser
@@ -38,3 +39,11 @@ require('./app/routes/movie.routes.js')(app);
 if (require.main === module) {
   app.listen.apply(app, args);
 }
+
+//serve react files
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Handles any requests that don't match the ones above
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});

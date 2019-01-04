@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export function getMovies(page = 1, size = 9) {
 	return new Promise((resolve, reject) => {
-		axios.get('http://localhost:8081/api/movies',
+		axios.get('api/movies',
 			{params: {
 			    page: page,
 			    size: size
