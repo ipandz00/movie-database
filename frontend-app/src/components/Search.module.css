@@ -1,0 +1,16 @@
+.searchField {
+	border:none;
+  	background-color: transparent;
+}
+
+.searchField:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.iconCenter {
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	color: grey;
+}

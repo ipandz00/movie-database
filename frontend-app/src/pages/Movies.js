@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'open-iconic/font/css/open-iconic-bootstrap.min.css';
-import Header from './containers/HeaderContainer.js';
-import Search from './containers/SearchContainer.js';
-import MovieList from './containers/MovieListContainer.js';
-import Pagination from './containers/PaginationContainer.js';
-import { getMovies } from './api.js';
+import MovieList from '../containers/MovieListContainer.js';
+import Pagination from '../containers/PaginationContainer.js';
+import { getMovies } from '../api.js';
 
-class App extends Component {
+class Movies extends Component {
   constructor() {
     super();
 
@@ -38,13 +33,9 @@ class App extends Component {
   render() {
     return (
     <React.Fragment>
-      <Header />
-      <Search />
       <MovieList data={this.state.movieData}/>
       <Pagination pageSize={this.state.pageSize} currentPage={this.state.currentPage} totalCount={this.state.totalCount} loadMovies={this.loadMovies}/>
     </React.Fragment>
     );
   }
 }
-
-export default App;
