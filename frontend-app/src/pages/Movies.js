@@ -12,20 +12,23 @@ export default class Movies extends Component {
       movieData: null,
       pageSize: 0,
       currentPage: 0,
-      totalCount: 0
+      totalCount: 0,
     };
+
+    this.genreId = null;
 
     this.loadMovies = this.loadMovies.bind(this);
   }
   componentDidMount() {
     const params = new URLSearchParams(window.location.search);
-    const genreId = params.get('genre');
+    this.genreId = params.get('genre');
 
-    this.loadMovies(1, genreId);
+    this.loadMovies(1, this.genreId);
   }
 
   loadMovies(page = 1, genre) {
-    getMovies(page, genre).then(response => 
+    genre = this.genreId;
+    getMovies(page, 9, genre).then(response => 
       this.setState({
         movieData: response.data, 
         pageSize: response.size, 

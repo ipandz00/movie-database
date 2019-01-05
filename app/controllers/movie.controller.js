@@ -4,10 +4,15 @@ const Movie = require('../models/movieModel.js');
 exports.findAll = (req, res) => {
     let page = parseInt(req.query.page);
     let size = parseInt(req.query.size);
+    let query = {};
 
-    Movie.find().skip(size * (page - 1)).limit(size).sort({ vote_average: 'desc' }).populate('genre').populate('cast')
+    if(req.query.genre) {
+        query.genre = parseInt(req.query.genre);
+    }
+
+    Movie.find(query).skip(size * (page - 1)).limit(size).sort({ vote_average: 'desc' }).populate('genre').populate('cast')
     .then(movies => {
-        Movie.countDocuments({}).exec((err, count) => {
+        Movie.countDocuments(query).exec((err, count) => {
             if (err) {
                 res.send(err);
                 return
