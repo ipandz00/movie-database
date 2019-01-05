@@ -18,7 +18,7 @@ const Movie = (props) => {
 				<div className='container pt-5 pb-5'>
 					<div className="row">
 					  <div className="col-4">
-					  	<img src={"https://image.tmdb.org/t/p/w500" + props.data.poster_path} className="img-fluid" alt="Responsive image"/>
+					  	<img src={"https://image.tmdb.org/t/p/w500" + props.data.poster_path} className="img-fluid" alt="Movie poster"/>
 					  </div>
 					  <div className="col-6">
 					  	<h2 className={styles.whiteText}>

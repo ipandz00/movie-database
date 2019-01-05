@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ActorList.module.css';
+//import styles from './ActorList.module.css';
 
 function renderActors(data) {
 	let actors = data.map((item) => {
@@ -22,7 +22,8 @@ function renderActors(data) {
 const ActorList = (props) => {
 	return (
 		<div className='container mt-4'>
-			<div className='row'>
+			<h3>Actors</h3>
+			<div className='row mt-4'>
 				{props.data !== null && 
 					renderActors(props.data)
 				}
