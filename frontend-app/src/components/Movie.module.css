@@ -1,0 +1,7 @@
+.backgroundColor {
+	background-image: radial-gradient(circle at 10% 25%, rgba(15.29%, 23.53%, 35.29%, 0.98) 0%, rgba(15.29%, 23.53%, 35.29%, 0.88) 100%);
+}
+
+.whiteText {
+	color: white;
+}
