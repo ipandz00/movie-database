@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getMovie } from '../api.js';
 import MovieOverview from '../containers/MovieContainer.js';
+import ActorList from '../containers/ActorListContainer.js';
 
 export default class Movie extends Component {
   constructor(props) {
@@ -27,6 +28,9 @@ export default class Movie extends Component {
     return (
     <React.Fragment>
       <MovieOverview data={this.state.movieData}/>
+      {this.state.movieData !== null && 
+        <ActorList data={this.state.movieData.cast} />
+      }
     </React.Fragment>
     );
   }
