@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getMovie } from '../api.js';
 
-class Movie extends Component {
+export default class Movie extends Component {
   constructor() {
     super();
 
@@ -17,7 +17,7 @@ class Movie extends Component {
 
   loadMovie(id) {
     getMovie(id).then(response => 
-      console.log(response);
+      console.log(response)
     )
   }
   render() {

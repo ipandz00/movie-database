@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import MovieList from '../containers/MovieListContainer.js';
 import Pagination from '../containers/PaginationContainer.js';
+import Search from '../containers/SearchContainer.js';
 import { getMovies } from '../api.js';
 
-class Movies extends Component {
+export default class Movies extends Component {
   constructor() {
     super();
 
@@ -17,7 +18,7 @@ class Movies extends Component {
     this.loadMovies = this.loadMovies.bind(this);
   }
   componentDidMount() {
-    this.loadMovies();
+    this.loadMovies(1);
   }
 
   loadMovies(page = 1) {
@@ -33,6 +34,7 @@ class Movies extends Component {
   render() {
     return (
     <React.Fragment>
+      <Search />
       <MovieList data={this.state.movieData}/>
       <Pagination pageSize={this.state.pageSize} currentPage={this.state.currentPage} totalCount={this.state.totalCount} loadMovies={this.loadMovies}/>
     </React.Fragment>
