@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getMovie } from '../api.js';
+import MovieOverview from '../containers/MovieContainer.js';
 
 export default class Movie extends Component {
   constructor(props) {
@@ -17,13 +18,13 @@ export default class Movie extends Component {
 
   loadMovie(id) {
     getMovie(id).then(response => 
-      console.log(response)
+      this.setState({movieData: response})
     )
   }
   render() {
     return (
     <React.Fragment>
-      <p>Single movie</p>
+      <MovieOverview data={this.state.movieData}/>
     </React.Fragment>
     );
   }
