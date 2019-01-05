@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { getMovie } from '../api.js';
 
 export default class Movie extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       movieData: null,
@@ -12,7 +12,7 @@ export default class Movie extends Component {
     this.loadMovie = this.loadMovie.bind(this);
   }
   componentDidMount() {
-    this.loadMovie(1);
+    this.loadMovie(this.props.match.params.id);
   }
 
   loadMovie(id) {

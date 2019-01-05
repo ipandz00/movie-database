@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import styles from './MovieList.module.css';
 
 const MovieList = (props) => {
@@ -13,8 +14,11 @@ const MovieList = (props) => {
 		              <p className={"card-text " + styles.movieOverview}>{item.overview}</p>
 		              <div className="d-flex justify-content-between align-items-center">
 		                <div className="btn-group">
-		                  <button type="button" className="btn btn-sm btn-info">View</button>
+		                	<Link to={"movie/" + item._id}>
+		                  		<button type="button" className="btn btn-sm btn-info">View</button>
+		                  	</Link>
 		                </div>
+		                <small className="text-muted">{item.vote_average}</small>
 		                <small className="text-muted">{item.release_date}</small>
 		              </div>
 		            </div>

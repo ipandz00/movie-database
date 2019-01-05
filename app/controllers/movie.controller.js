@@ -5,7 +5,7 @@ exports.findAll = (req, res) => {
     let page = parseInt(req.query.page);
     let size = parseInt(req.query.size);
 
-    Movie.find().skip(size * (page - 1)).limit(size).populate('genre').populate('cast')
+    Movie.find().skip(size * (page - 1)).limit(size).sort({ vote_average: 'desc' }).populate('genre').populate('cast')
     .then(movies => {
         Movie.countDocuments({}).exec((err, count) => {
             if (err) {
