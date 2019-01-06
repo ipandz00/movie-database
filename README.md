@@ -6,6 +6,6 @@ How to test locally
 2. Do npm install on root
 3. Make a .env file with TMDB_API_KEY
 4. Populate the DB with initial data using 'node loadDataFromTMDB.js'
-5.Run the server via npm start command
-6.Open frontend-app folder and do npm install then npm start
+5. Run the server via npm start command
+6. Open frontend-app folder and do npm install then npm start
 
