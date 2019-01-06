@@ -13,6 +13,7 @@ function renderGenres(data) {
 
 const Movie = (props) => {
 	if(props.data !== null) {
+		let voteVal = props.vote !== null? props.vote : props.data.vote_average;
 		return (
 			<div className={styles.backgroundColor}>
 				<div className='container pt-5 pb-5'>
@@ -25,7 +26,7 @@ const Movie = (props) => {
 						  {props.data.title}
 						  <small className="text-muted"> ({props.data.year})</small>
 						</h2>
-						<p className={'mt-3 ' + styles.whiteText}> Average user score: <b>{props.data.vote_average*10}%</b></p>
+						<p className={'mt-3 ' + styles.whiteText}> Average user score: <b>{voteVal*10}%</b> {props.vote===null && <span className="oi oi-wrench"></span>}</p>
 						<h4 className={styles.whiteText}>Overview:</h4>
 						<p className={styles.whiteText}>{props.data.overview}</p>
 						<h5 className={styles.whiteText}>Genres:</h5>

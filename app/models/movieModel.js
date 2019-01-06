@@ -4,6 +4,7 @@ const Genre = require('./genreModel.js');
 const Actor = require('./actorModel.js');
 
 const movieSchema = Schema({
+	id: Number,
 	vote_average: Number,
 	title: String,
 	poster_path: String,

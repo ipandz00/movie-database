@@ -40,3 +40,19 @@ export function getMovie(id) {
 		.catch((err) => reject(err));
 	});
 }
+
+export function getMovieDetails(id) {
+	return new Promise((resolve, reject) => {
+		axios.get(urlPrefix + 'api/movies/details/' + id)
+		.then((data) => {
+			if(data.status === 200) {
+				resolve(data);
+			}
+			else {
+				reject(data.statusText);
+			}
+		})
+		.catch((err) => reject(err));
+	});
+}
+

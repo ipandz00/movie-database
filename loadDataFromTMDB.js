@@ -62,8 +62,8 @@ function loadMovies( page = 1) {
 
 				await loadActors(id).then((cast) => {
 
-					const {vote_average, title, poster_path, overview, release_date, genre_ids} = item;
-					const subset = {vote_average, title, poster_path, overview, release_date, genre, cast};
+					const {id, vote_average, title, poster_path, overview, release_date, genre_ids} = item;
+					const subset = {id, vote_average, title, poster_path, overview, release_date, genre, cast};
 
 					movieData.push(subset);
 				});

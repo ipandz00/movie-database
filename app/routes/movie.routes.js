@@ -8,4 +8,7 @@ module.exports = function(app) {
     // Retrieve a single Movie by Id
     app.get('/api/movies/:movieId', movie.findOne);
 
+    //Retrieve movie details from TMDB
+    app.get('/api/movies/details/:movieId', movie.retrieveMovieDataFromAPI);
+
 }

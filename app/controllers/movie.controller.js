@@ -1,4 +1,7 @@
 const Movie = require('../models/movieModel.js');
+require('dotenv').config();
+const request = require('request');
+const apiKey = process.env.TMDB_API_KEY;
  
 // FETCH all Movies
 exports.findAll = (req, res) => {
@@ -54,3 +57,22 @@ exports.findOne = (req, res) => {
         });
     });
 };
+
+//Update movie from TMDB
+exports.retrieveMovieDataFromAPI = (req, res) => {
+
+    var options = { method: 'GET',
+      url: `https://api.themoviedb.org/3/movie/${req.params.movieId}`,
+      qs: { api_key: apiKey },
+      body: '{}' 
+    };
+
+    request(options, function (error, response, body) {
+          if (error) {
+            res.json({error: true, text:'Unable to retrieve details.'});
+          }
+          let data = JSON.parse(body);
+
+          res.json(data);
+        });
+}
