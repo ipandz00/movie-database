@@ -26,9 +26,9 @@ export default class Movies extends Component {
     this.loadMovies(1, this.genreId);
   }
 
-  loadMovies(page = 1, genre) {
+  loadMovies(page = 1, genre, query) {
     genre = this.genreId;
-    getMovies(page, 9, genre).then(response => 
+    getMovies(page, 9, genre, query).then(response => 
       this.setState({
         movieData: response.data, 
         pageSize: response.size, 

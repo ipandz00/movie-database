@@ -5,13 +5,14 @@ if(env === 'development') {
 	urlPrefix = 'http://localhost:8081/';
 }
 
-export function getMovies(page = 1, size = 9, genre) {
+export function getMovies(page = 1, size = 9, genre, query = '') {
 	return new Promise((resolve, reject) => {
 		axios.get(urlPrefix + 'api/movies',
 			{params: {
 			    page: page,
 			    size: size,
-			    genre: genre
+			    genre: genre,
+			    search: query
 			  }})
 		.then((data) => {
 			if(data.status === 200) {
