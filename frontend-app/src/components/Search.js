@@ -20,7 +20,7 @@ const Search = (props) => {
           	<div className='input-group'>
 	          	<span className={"oi oi-magnifying-glass " + styles.iconCenter}>
 	          	</span>
-	          	<input type='text' className={'form-control ' + styles.searchField} placeholder='Search for movies, actors, genres, etc.' onChange={props.handleSearchChange}/>
+	          	<input type='text' className={'form-control ' + styles.searchField} placeholder='Search for movies, actors...' onChange={props.handleSearchChange}/>
 	        </div>
 	        <Collapse isOpen={props.visible}>
 	          <Card>
