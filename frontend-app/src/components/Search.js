@@ -4,8 +4,10 @@ import { Collapse, Card } from 'reactstrap';
 
 function renderListItems(data) {
 	let items = data.map((item) => {
+		let icon = item.type === 'movie'?'oi oi-video':'oi oi-person';
+		let href = item.type === 'movie'? "/movie/"+item.id: "/movies?actor=" +item.id;
 		return (
-			<a href={"/movie/"+item._id} className="list-group-item list-group-item-action" key={item.id}><span className="oi oi-video"></span>  {item.name}</a>
+			<a href={href} className="list-group-item list-group-item-action" key={item.id}><span className={icon}></span>  {item.name}</a>
 			)
 	});
 	return items;
