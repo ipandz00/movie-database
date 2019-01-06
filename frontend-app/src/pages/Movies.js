@@ -22,13 +22,14 @@ export default class Movies extends Component {
   componentDidMount() {
     const params = new URLSearchParams(window.location.search);
     this.genreId = params.get('genre');
+    this.actorId = params.get('actor');
 
-    this.loadMovies(1, this.genreId);
+    this.loadMovies(1, this.genreId, '');
   }
 
   loadMovies(page = 1, genre, query) {
     genre = this.genreId;
-    getMovies(page, 9, genre, query).then(response => 
+    getMovies(page, 9, genre, query, this.actorId).then(response => 
       this.setState({
         movieData: response.data, 
         pageSize: response.size, 

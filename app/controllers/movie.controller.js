@@ -17,6 +17,10 @@ exports.findAll = (req, res) => {
        query.title = new RegExp(req.query.search, 'i');
     }
 
+    if(req.query.actor) {
+       query.cast = parseInt(req.query.actor);
+    }
+
     Movie.find(query).skip(size * (page - 1)).limit(size).sort({ vote_average: 'desc' }).populate('genre').populate('cast')
     .then(movies => {
         Movie.countDocuments(query).exec((err, count) => {

@@ -25,7 +25,7 @@ export default class SearchContainer extends Component {
 				
 				Promise.all([movies, actors]).then((responses) => {
 					var temp = responses[0].data.map((item) => { return {id: item._id, name: item.title, type: 'movie'}});
-					responses[1].data.map((item) => { temp.push({id:item._id, name: item.name, type: 'actor'})});
+					responses[1].data.forEach((item) => { temp.push({id:item._id, name: item.name, type: 'actor'})});
 
 					this.setState({searchDropdownVisible: true, searchDropdownData: temp});
 				})

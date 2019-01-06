@@ -8,7 +8,9 @@ const MovieList = (props) => {
 			return (
 				<div className="col-md-4" key={item._id}>
 		          <div className="card mb-4 shadow-sm">
-		          	<img src={"https://image.tmdb.org/t/p/w500" + item.poster_path} className={"card-img-top " + styles.cardImage} alt="..." />
+		          	<Link to={"movie/" + item._id}>
+		          		<img src={"https://image.tmdb.org/t/p/w500" + item.poster_path} className={"card-img-top " + styles.cardImage} alt="..." />
+		          	</Link>
 		            <div className="card-body">
 		              <h5 className="card-title">{item.title}</h5>
 		              <p className={"card-text " + styles.movieOverview}>{item.overview}</p>
