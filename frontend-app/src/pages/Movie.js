@@ -24,7 +24,7 @@ export default class Movie extends Component {
         response.year = d.getFullYear();
       }
       catch(err) {
-        console.log(err);
+        console.log(response)
         response.year = response.release_date.slice(0, 4);
       }
 
