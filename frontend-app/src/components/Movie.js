@@ -24,7 +24,7 @@ const Movie = (props) => {
 					  <div className="col-6">
 					  	<h2 className={styles.whiteText}>
 						  {props.data.title}
-						  <small className="text-muted"> ({props.data.year})</small>
+						  <small className="text-muted"> ({props.data.release_date.slice(0, 4)})</small>
 						</h2>
 						<p className={'mt-3 ' + styles.whiteText}> Average user score: <b>{voteVal*10}%</b> {props.vote===null && <span className="oi oi-wrench"></span>}</p>
 						<h4 className={styles.whiteText}>Overview:</h4>

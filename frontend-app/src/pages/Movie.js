@@ -19,15 +19,6 @@ export default class Movie extends Component {
 
   loadMovie(id) {
     getMovie(id).then((response) => {
-      try {
-        let d = new Date(response.release_date);
-        response.year = d.getFullYear();
-      }
-      catch(err) {
-        console.log(response)
-        response.year = response.release_date.slice(0, 4);
-      }
-
       this.setState({movieData: response})
     });
   }
