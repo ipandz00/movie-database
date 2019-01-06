@@ -56,3 +56,22 @@ export function getMovieDetails(id) {
 	});
 }
 
+export function getActors(size = 5, name) {
+	return new Promise((resolve, reject) => {
+		axios.get(urlPrefix + '/api/actors',
+			{params: {
+				size: size,
+			    name: name
+			  }})
+		.then((data) => {
+			if(data.status === 200) {
+				resolve(data);
+			}
+			else {
+				reject(data.statusText);
+			}
+		})
+		.catch((err) => reject(err));
+	});
+}
+

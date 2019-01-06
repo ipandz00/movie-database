@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Search from '../components/Search.js';
-import { getMovies } from '../api.js';
+import { getMovies, getActors } from '../api.js';
 
 export default class SearchContainer extends Component {
 	constructor() {
@@ -20,10 +20,15 @@ export default class SearchContainer extends Component {
 		}
 		else {
 			if(e.target.value.length > 2) {
-				getMovies(1, 20, null, e.target.value)
-				.then((res) => {
-					this.setState({searchDropdownData: res.data, searchDropdownVisible: true})
-				});
+				const movies = getMovies(1, 5, null, e.target.value);
+				const actors = getActors(5, e.target.value);
+				
+				Promise.all([movies, actors]).then((responses) => {
+					var temp = responses[0].data.map((item) => { return {id: item._id, name: item.title, type: 'movie'}});
+					responses[1].data.map((item) => { temp.push({id:item._id, name: item.name, type: 'actor'})});
+
+					this.setState({searchDropdownVisible: true, searchDropdownData: temp});
+				})
 			}
 		}
 	}

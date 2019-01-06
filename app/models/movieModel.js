@@ -11,7 +11,7 @@ const movieSchema = Schema({
 	overview: String,
 	release_date: String,
 	genre: [{ type: Number, ref: 'Genre' }],
-	cast: [{ type: Schema.Types.ObjectId, ref: 'Actor' }]
+	cast: [{ type: Number, ref: 'Actor' }]
 });
 
 module.exports = mongoose.model('Movie', movieSchema);

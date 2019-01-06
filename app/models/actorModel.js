@@ -2,12 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var actorSchema = Schema ({
-	id: Number,
+	_id: Number,
 	name: String,
 	gender: Number,
 	order: Number,
-	character: String,
 	profile_path: String
-});
+}, { _id: false, autoIndex: false});
 
 module.exports = mongoose.model('Actor', actorSchema);

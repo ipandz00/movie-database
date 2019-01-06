@@ -145,18 +145,17 @@ function loadActors( movieId ) {
 			  for(let i = 0; i < max; i++) {
 			  	let el = data.cast[i];
 			  	let actor = {
-			  		id: el.id,
+			  		_id: el.id,
 					name: el.name,
 					gender: el.gender,
 					order: el.order,
-					character: el.character,
 					profile_path: el.profile_path
 			  	};
 			  	cast.push(actor);
 			  }
 
-			  Actor.insertMany(cast, (error, docs) => {
-			  	resolve(docs.map(item => item._id));
+			  Actor.insertMany(cast, {ordered: false}, (error, docs) => {
+			  	resolve(cast.map(item => item._id));
 			  });
 		  }
 

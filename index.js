@@ -35,6 +35,7 @@ args.push(() => {
 	console.log(`Listening: http://${host}:${port}\n`);
 });
 require('./app/routes/movie.routes.js')(app);
+require('./app/routes/actor.routes.js')(app);
 
 if (require.main === module) {
   app.listen.apply(app, args);

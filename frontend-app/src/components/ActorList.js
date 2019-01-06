@@ -8,8 +8,7 @@ function renderActors(data) {
 		          <div className="card mb-2 shadow-sm">
 		          	<img src={"https://image.tmdb.org/t/p/w200" + item.profile_path} className="card-img-top " alt="..." />
 		            <div className="card-body">
-		              <h5 className="card-title">{item.character}</h5>
-		              <p className="card-text">{item.name}</p>
+		              <h5 className="card-title">{item.name}</h5>
 		            </div>
 		          </div>
 		        </div>

@@ -5,7 +5,7 @@ import { Collapse, Card } from 'reactstrap';
 function renderListItems(data) {
 	let items = data.map((item) => {
 		return (
-			<a href={"/movie/"+item._id} className="list-group-item list-group-item-action" key={item._id}><span className="oi oi-video"></span>  {item.title}</a>
+			<a href={"/movie/"+item._id} className="list-group-item list-group-item-action" key={item.id}><span className="oi oi-video"></span>  {item.name}</a>
 			)
 	});
 	return items;
