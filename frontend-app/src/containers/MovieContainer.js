@@ -13,8 +13,8 @@ export default class MovieContainer extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		if(this.props) {
-			getMovieDetails(this.props.data.id).then((response) => this.setState({vote_average: response.data.vote_average}))
+		if(prevProps.data === null) {
+			getMovieDetails(this.props.data.id).then((response) => this.setState({vote_average: response.data.vote_average}));
 		}
 	}
 
