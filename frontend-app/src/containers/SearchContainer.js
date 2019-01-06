@@ -19,10 +19,12 @@ export default class SearchContainer extends Component {
 			this.setState({searchDropdownVisible: false, searchDropdownData: null});
 		}
 		else {
-			getMovies(1, 20, null, e.target.value)
-			.then((res) => {
-				this.setState({searchDropdownData: res.data, searchDropdownVisible: true})
-			});
+			if(e.target.value.length > 2) {
+				getMovies(1, 20, null, e.target.value)
+				.then((res) => {
+					this.setState({searchDropdownData: res.data, searchDropdownVisible: true})
+				});
+			}
 		}
 	}
 
