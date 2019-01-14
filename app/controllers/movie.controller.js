@@ -10,7 +10,7 @@ exports.findAll = (req, res) => {
     let query = {};
 
     if(req.query.genre) {
-        query.genre = parseInt(req.query.genre);
+        query.genre = req.query.genre;
     }
 
     if(req.query.search) {

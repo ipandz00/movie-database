@@ -18,10 +18,10 @@ function sleep(ms) {
 
 mongoose.connect('mongodb://localhost:27017/imdb', {useNewUrlParser: true});
 
-loadGenres().then(() => {
+loadGenres().then((genres) => {
 	(async function loop() {
 	    for (let i = 1; i <= 5; i++) {
-	        await loadMovies(i);
+	        await loadMovies(i, genres);
 	        await sleep(5000);
 	        console.log(i + ' page has been loaded');
 	    }
@@ -32,7 +32,7 @@ loadGenres().then(() => {
 	throw new Error(err);
 });
 
-function loadMovies( page = 1) {
+function loadMovies( page = 1, genres) {
 	var options = { method: 'GET',
 	  url: 'https://api.themoviedb.org/3/discover/movie',
 	  qs: 
@@ -57,7 +57,7 @@ function loadMovies( page = 1) {
 			}
 
 			let responses = data.results.map(async (item) => {
-				let genre = item.genre_ids.map((item) => item);
+				let genre = item.genre_ids.map((item) => genres[item]);
 				const id = item.id;
 
 				await loadActors(id).then((cast) => {
@@ -105,7 +105,7 @@ function loadGenres() {
 		  let data = JSON.parse(body);
 
 		  for(let i = 0; i < data.genres.length; i++){
-			    data.genres[i]._id = data.genres[i]['id'];
+			    data.genres[i].tmdbId = data.genres[i]['id'];
 			    delete data.genres[i].id;
 			}
 
@@ -115,7 +115,13 @@ function loadGenres() {
 					reject('Error while inserting genres into db.')
 				}
 				console.log('Genres imported. \n Completed in: ' + ((new Date()).getTime() - startTime)/1000 + ' seconds.');
-				resolve();
+
+				let data = docs.reduce((obj, item) => {
+					obj[item.tmdbId] = item._id;
+					return obj;
+				}, {});
+				
+				resolve(data);
 			});
 		});
 	});

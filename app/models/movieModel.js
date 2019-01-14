@@ -10,7 +10,7 @@ const movieSchema = Schema({
 	poster_path: String,
 	overview: String,
 	release_date: String,
-	genre: [{ type: Number, ref: 'Genre' }],
+	genre: [{ type: Schema.Types.ObjectId, ref: 'Genre' }],
 	cast: [{ type: Number, ref: 'Actor' }]
 });
 
