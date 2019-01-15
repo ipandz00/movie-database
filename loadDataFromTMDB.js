@@ -61,9 +61,12 @@ function loadMovies( page = 1, genres) {
 				const id = item.id;
 
 				await loadActors(id).then((cast) => {
+					let subset = {};
 
-					const {id, vote_average, title, poster_path, overview, release_date, genre_ids} = item;
-					const subset = {id, vote_average, title, poster_path, overview, release_date, genre, cast};
+					subset.tmdbId = item.id;
+
+					const {vote_average, title, poster_path, overview, release_date, genre_ids} = item;
+					subset = {vote_average, title, poster_path, overview, release_date, genre, cast};
 
 					movieData.push(subset);
 				});
@@ -120,7 +123,7 @@ function loadGenres() {
 					obj[item.tmdbId] = item._id;
 					return obj;
 				}, {});
-				
+
 				resolve(data);
 			});
 		});
@@ -141,30 +144,49 @@ function loadActors( movieId ) {
 		  }
 		  let data = JSON.parse(body);
 		  let cast = [];
+		  let dbCast = [];
 		  if(data.cast === undefined) {
 		  	console.log('Movie with id=' + movieId + ' has no actors!');
 		  	resolve(null);
 		  }
 		  else {
-		  	let max = data.cast.length < 10 ? data.cast.length: 10;
-
-			  for(let i = 0; i < max; i++) {
-			  	let el = data.cast[i];
-			  	let actor = {
-			  		_id: el.id,
-					name: el.name,
-					gender: el.gender,
-					order: el.order,
-					profile_path: el.profile_path
-			  	};
-			  	cast.push(actor);
-			  }
-
-			  Actor.insertMany(cast, {ordered: false}, (error, docs) => {
-			  	resolve(cast.map(item => item._id));
-			  });
+		  	insertActors(data).then((response) => {
+		  		resolve(response);
+		  	})
 		  }
 
 		});
 	});
+}
+
+function insertActors(data) {
+	let cast = [];
+	let dbCast = [];
+	let max = data.cast.length < 10 ? data.cast.length: 10;
+	return new Promise(async (resolve, reject) => {
+		for(let i = 0; i < max; i++) {
+		  	let el = data.cast[i];
+		  	let actor = {
+		  		tmdbId: el.id,
+				name: el.name,
+				gender: el.gender,
+				profile_path: el.profile_path
+		  	};
+		  	await Actor.findOne({tmdbId: el.id}).then((result) => {
+		  		if(result) {
+		  			console.log('Actor ' + result.name + ' already exists. Using old id...');
+		  			dbCast.push(result._id);
+		  		}
+		  		else {
+		  			cast.push(actor);
+		  		}
+		  	})
+		  }
+
+		  await Actor.insertMany(cast, (error, docs) => {
+		  	let db = docs.map(item => item._id);
+		  	const realData = [...db, ...dbCast];
+		  	resolve(realData);
+		  });
+	});	
 } 

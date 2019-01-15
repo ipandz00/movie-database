@@ -4,14 +4,14 @@ const Genre = require('./genreModel.js');
 const Actor = require('./actorModel.js');
 
 const movieSchema = Schema({
-	id: Number,
+	tmdbId: Number,
 	vote_average: Number,
 	title: String,
 	poster_path: String,
 	overview: String,
 	release_date: String,
 	genre: [{ type: Schema.Types.ObjectId, ref: 'Genre' }],
-	cast: [{ type: Number, ref: 'Actor' }]
+	cast: [{ type: Schema.Types.ObjectId, ref: 'Actor' }]
 });
 
 module.exports = mongoose.model('Movie', movieSchema);

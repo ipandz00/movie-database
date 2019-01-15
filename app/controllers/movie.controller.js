@@ -18,7 +18,7 @@ exports.findAll = (req, res) => {
     }
 
     if(req.query.actor) {
-       query.cast = parseInt(req.query.actor);
+       query.cast = req.query.actor;
     }
 
     Movie.find(query).skip(size * (page - 1)).limit(size).sort({ vote_average: 'desc' }).populate('genre').populate('cast')
