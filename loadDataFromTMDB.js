@@ -61,12 +61,8 @@ function loadMovies( page = 1, genres) {
 				const id = item.id;
 
 				await loadActors(id).then((cast) => {
-					let subset = {};
-
-					subset.tmdbId = item.id;
-
 					const {vote_average, title, poster_path, overview, release_date, genre_ids} = item;
-					subset = {vote_average, title, poster_path, overview, release_date, genre, cast};
+					const subset = {tmdbId: item.id, vote_average, title, poster_path, overview, release_date, genre, cast};
 
 					movieData.push(subset);
 				});

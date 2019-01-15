@@ -25,9 +25,11 @@ export default class Movie extends Component {
   render() {
     return (
     <React.Fragment>
-      <MovieOverview data={this.state.movieData}/>
-      {this.state.movieData !== null && 
-        <ActorList data={this.state.movieData.cast} />
+      {this.state.movieData !== null &&
+        <React.Fragment>
+          <MovieOverview data={this.state.movieData}/> 
+          <ActorList data={this.state.movieData.cast} />
+        </React.Fragment>
       }
     </React.Fragment>
     );

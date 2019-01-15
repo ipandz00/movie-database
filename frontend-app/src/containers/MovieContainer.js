@@ -12,10 +12,8 @@ export default class MovieContainer extends Component {
 		}
 	}
 
-	componentDidUpdate(prevProps) {
-		if(prevProps.data === null) {
-			getMovieDetails(this.props.data.id).then((response) => this.setState({vote_average: response.data.vote_average}));
-		}
+	componentDidMount() {
+		getMovieDetails(this.props.data.tmdbId).then((response) => this.setState({vote_average: response.data.vote_average}));
 	}
 
 	render() {
