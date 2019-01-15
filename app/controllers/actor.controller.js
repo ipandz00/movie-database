@@ -3,7 +3,7 @@ const Actor = require('../models/actorModel.js');
 // FETCH all Actors
 exports.findAll = (req, res) => {
     let query = {};
-    let size = parseInt(req.query.size);
+    const size = parseInt(req.query.size);
 
     if(req.query.name) {
        query.name = new RegExp(req.query.name, 'i');

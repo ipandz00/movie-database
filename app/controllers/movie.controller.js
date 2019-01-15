@@ -5,8 +5,8 @@ const apiKey = process.env.TMDB_API_KEY;
  
 // FETCH all Movies
 exports.findAll = (req, res) => {
-    let page = parseInt(req.query.page);
-    let size = parseInt(req.query.size);
+    const page = parseInt(req.query.page);
+    const size = parseInt(req.query.size);
     let query = {};
 
     if(req.query.genre) {

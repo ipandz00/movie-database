@@ -1,6 +1,6 @@
 import axios from 'axios';
 const env = process.env.NODE_ENV || 'development';
-var urlPrefix = window.location.origin;
+const urlPrefix = window.location.origin;
 if(env === 'development') {
 	urlPrefix = 'http://localhost:8081';
 }
