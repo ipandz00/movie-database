@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 function renderGenres(data) {
 	let d = data.map((item) => {
 		return (
-			<Link to={"/movies?genre=" + item._id}>
-				<a key={item._id} className="badge badge-info mr-1">{item.name} </a>
+			<Link to={"/movies?genre=" + item._id} style={{ textDecoration: 'none' }} key={item._id}>
+				<p className="badge badge-info mr-1">{item.name} </p>
 			</Link>
 			)
 	});

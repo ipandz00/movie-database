@@ -27,6 +27,17 @@ export default class Movies extends Component {
     this.loadMovies(1, this.genreId, '');
   }
 
+  componentDidUpdate() {
+    let cond = this.props.location.state;
+
+    if(cond !== undefined) {
+      if(cond.actorId) {
+        this.actorId = cond.actorId;
+        this.loadMovies(1, this.genreId, '');
+      }
+    }
+  }
+
   loadMovies(page = 1, genre, query) {
     genre = this.genreId;
     getMovies(page, 9, genre, query, this.actorId).then(response => 

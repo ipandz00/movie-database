@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 function renderListItems(data) {
 	let items = data.map((item) => {
 		let icon = item.type === 'movie'?'oi oi-video':'oi oi-person';
-		let href = item.type === 'movie'? "/movie/"+item.id: "/movies?actor=" +item.id;
+		let href = item.type === 'movie'? "/movie/"+item.id: {pathname: "/movies", search: `?actor=${item.id}`, state: {actorId: item.id}}
 		return (
-			<Link to={href}>
-				<a  className="list-group-item list-group-item-action" key={item.id}><span className={icon}></span>  {item.name}</a>
+			<Link key={item.id} to={href} style={{ textDecoration: 'none' }}>
+				<p className="list-group-item list-group-item-action" ><span className={icon}></span>  {item.name}</p>
 			</Link>
 			)
 	});
