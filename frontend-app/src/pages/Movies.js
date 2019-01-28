@@ -31,7 +31,7 @@ export default class Movies extends Component {
     let cond = this.props.location.state;
 
     if(cond !== undefined) {
-      if(cond.actorId) {
+      if(cond.actorId && this.actorId !== cond.actorId) {
         this.actorId = cond.actorId;
         this.loadMovies(1, this.genreId, '');
       }
