@@ -1,10 +1,13 @@
 import React from 'react';
 import styles from './Movie.module.css';
+import { Link } from 'react-router-dom';
 
 function renderGenres(data) {
 	let d = data.map((item) => {
 		return (
-			<a key={item._id} href={"/movies?genre=" + item._id} className="badge badge-info mr-1">{item.name} </a>
+			<Link to={"/movies?genre=" + item._id}>
+				<a key={item._id} className="badge badge-info mr-1">{item.name} </a>
+			</Link>
 			)
 	});
 
